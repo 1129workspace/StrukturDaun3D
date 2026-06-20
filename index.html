@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif - Struktur Daun Kelas VIII SMP</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f1;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Container dengan rasio 16:9 yang responsif */
+        .mockup-container {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 Aspect Ratio */
+            max-width: 1280px;
+            max-height: 720px;
+            background-color: #ffffff;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 4px solid #2e7d32;
+        }
+
+        /* Header */
+        header {
+            background-color: #2e7d32;
+            color: white;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #1b5e20;
+        }
+
+        .header-title h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title p {
+            font-size: 0.85rem;
+            color: #a5d6a7;
+            margin-top: 2px;
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .header-meta strong {
+            color: #fff59d;
+        }
+
+        /* Main Workspace */
+        .workspace {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Panel Kiri (50%) */
+        .panel-left {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #e0e0e0;
+            background-color: #fafafa;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            background-color: #e8f5e9;
+            border-bottom: 2px solid #c8e6c9;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #455a64;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            background-color: #c8e6c9;
+            color: #1b5e20;
+        }
+
+        .tab-btn.active {
+            background-color: #ffffff;
+            color: #2e7d32;
+            border-bottom: 4px solid #2e7d32;
+            margin-bottom: -2px;
+        }
+
+        /* Content Area */
+        .content-container {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography & List Styling */
+        h2 {
+            color: #2e7d32;
+            font-size: 1.25rem;
+            margin-bottom: 14px;
+            border-left: 4px solid #fbc02d;
+            padding-left: 8px;
+        }
+
+        p.intro {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            color: #4f5d50;
+        }
+
+        .list-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            border-left: 3px solid #81c784;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .list-item strong {
+            color: #1b5e20;
+        }
+
+        /* Quiz Container */
+        .quiz-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            background: #e8f5e9;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #2e7d32;
+            font-size: 0.95rem;
+        }
+
+        .score-live {
+            font-size: 0.85rem;
+            background: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid #c8e6c9;
+        }
+
+        .question-text {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            line-height: 1.5;
+            color: #263238;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            border-color: #a5d6a7;
+            background-color: #f1f8e9;
+        }
+
+        .option-btn.correct {
+            background-color: #e8f5e9 !important;
+            border-color: #4caf50 !important;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #ffebee !important;
+            border-color: #ef5350 !important;
+            color: #c62828;
+        }
+
+        .quiz-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-quiz-btn {
+            padding: 10px 20px;
+            border: none;
+            background-color: #2e7d32;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .nav-quiz-btn:disabled {
+            background-color: #b0bec5;
+            cursor: not-allowed;
+        }
+
+        /* Panel Kanan (50% - Full Embed) */
+        .panel-right {
+            width: 50%;
+            height: 100%;
+            position: relative;
+            background-color: #e0e0e0;
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .ar-instruction {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: rgba(46, 125, 50, 0.9);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Custom Scrollbar untuk Panel Kiri */
+        .content-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .content-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .content-container::-webkit-scrollbar-thumb {
+            background: #c8e6c9;
+            border-radius: 3px;
+        }
+        .content-container::-webkit-scrollbar-thumb:hover {
+            background: #a5d6a7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mockup-container">
+        <header>
+            <div class="header-title">
+                <h1>MEDIA PEMBELAJARAN INTERAKTIF: STRUKTUR DAUN</h1>
+                <p>Penyusun: Assifa Izzati, S.Si. | SMA Islam Terpadu Arrisalah Paok Lombok</p>
+            </div>
+            <div class="header-meta">
+                <div>Fase D / Kelas <strong>VIII SMP</strong></div>
+                <div>Mata Pelajaran: <strong>IPA (Biologi)</strong></div>
+            </div>
+        </header>
+
+        <div class="workspace">
+            
+            <div class="panel-left">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('tujuan')">Tujuan</button>
+                    <button class="tab-btn" onclick="switchTab('materi')">Uraian Materi</button>
+                    <button class="tab-btn" onclick="switchTab('evaluasi')">Evaluasi Kuis</button>
+                </div>
+
+                <div class="content-container">
+                    
+                    <div id="tujuan" class="content-section active">
+                        <h2>Tujuan Pembelajaran (Fase D)</h2>
+                        <p class="intro">Setelah mempelajari topik struktur daun melalui media interaktif ini, diharapkan:</p>
+                        <div class="list-item">
+                            <strong>Mengidentifikasi Jaringan:</strong> Peserta didik mampu mengidentifikasi struktur jaringan penyusun daun (epidermis, stomata, mesofil palisade, mesofil spons, dan berkas pengangkut) secara teliti melalui pengamatan model 3D/AR.
+                        </div>
+                        <div class="list-item">
+                            <strong>Menjelaskan Hubungan Fungsi:</strong> Peserta didik mampu menjelaskan hubungan logis antara struktur anatomi jaringan daun dengan fungsinya dalam proses vital seperti fotosintesis dan transpirasi.
+                        </div>
+                    </div>
+
+                    <div id="materi" class="content-section">
+                        <h2>Struktur dan Fungsi Jaringan Daun</h2>
+                        <p class="intro">Gunakan panel visualisasi 3D di sebelah kanan Anda untuk mencocokkan komponen jaringan berikut:</p>
+                        
+                        <div class="list-item">
+                            <strong>1. Epidermis (Atas & Bawah):</strong> Lapisan sel terluar yang melindungi bagian dalam daun. Dilapisi oleh zat kutikula (lapisan lilin) yang tebal untuk mencegah penguapan air berlebih.
+                        </div>
+                        <div class="list-item">
+                            <strong>2. Stomata (Mulut Daun):</strong> Derivat epidermis berupa celah yang diapit sel penjaga. Berfungsi sebagai pintu masuk CO2 dan keluarnya O2 serta uap air.
+                        </div>
+                        <div class="list-item">
+                            <strong>3. Jaringan Palisade (Tiang):</strong> Bagian mesofil yang sel-selnya rapat, berbentuk silinder, dan mengandung sangat banyak kloroplas. Merupakan <strong>tempat utama terjadinya fotosintesis</strong>.
+                        </div>
+                        <div class="list-item">
+                            <strong>4. Jaringan Spons (Bunga Karang):</strong> Bagian mesofil dengan bentuk sel tidak teratur dan rongga antarsel yang luas. Berfungsi memfasilitasi pertukaran gas di dalam daun.
+                        </div>
+                        <div class="list-item">
+                            <strong>5. Berkas Pengangkut:</strong> Terdiri dari <strong>Xilem</strong> (mengangkut air dan garam mineral menuju daun) dan <strong>Floem</strong> (mengedarkan hasil fotosintesis ke seluruh tubuh tumbuhan).
+                        </div>
+                    </div>
+
+                    <div id="evaluasi" class="content-section">
+                        <div class="quiz-wrapper">
+                            <div class="quiz-header">
+                                <span class="question-number" id="quiz-progress">Soal 1 dari 10</span>
+                                <span class="score-live" id="quiz-score">Skor: 0</span>
+                            </div>
+                            
+                            <div class="question-text" id="question-text">Memuat pertanyaan...</div>
+                            
+                            <div class="options-list" id="options-container">
+                                </div>
+                            
+                            <div class="quiz-footer">
+                                <button class="nav-quiz-btn" id="btn-prev" onclick="changeQuestion(-1)" disabled>Kembali</button>
+                                <button class="nav-quiz-btn" id="btn-next" onclick="changeQuestion(1)">Berikutnya</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel-right">
+                <div class="ar-instruction">💡 Geser & Putar Model 3D Daun</div>
+                <iframe class="iframe-container" src="https://asblr.com/tGqcWIM" allowfullscreen allow="xr-spatial-tracking"></iframe>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Data 10 Soal Evaluasi Pilihan Ganda
+        const questions = [
+            {
+                q: "Jaringan pada daun yang paling banyak mengandung kloroplas dan menjadi tempat utama fotosintesis adalah...",
+                a: ["Epidermis", "Mesofil Palisade", "Mesofil Spons", "Floem"],
+                correct: 1
+            },
+            {
+                q: "Struktur pada epidermis daun yang berfungsi sebagai tempat pertukaran gas oksigen dan karbon dioksida adalah...",
+                a: ["Stomata", "Kutikula", "Xilem", "Trikoma"],
+                correct: 0
+            },
+            {
+                q: "Lapisan lilin pada permukaan atas daun yang berfungsi mencegah penguapan air yang berlebihan disebut...",
+                a: ["Palisade", "Spons", "Kutikula", "Endodermis"],
+                correct: 2
+            },
+            {
+                q: "Jika tumbuhan kekurangan air, bagian daun yang akan menutup untuk mengurangi transpirasi adalah...",
+                a: ["Sel penjaga pada stomata", "Jaringan xilem", "Jaringan floem", "Lapisan palisade"],
+                correct: 0
+            },
+            {
+                q: "Jaringan yang berfungsi mengangkut air dan mineral dari akar menuju ke daun adalah...",
+                a: ["Floem", "Xilem", "Palisade", "Kambium"],
+                correct: 1
+            },
+            {
+                q: "Mengapakah jaringan bunga karang (spons) memiliki rongga antar sel yang renggang?",
+                a: ["Untuk mengeraskan struktur daun", "Untuk menyimpan hasil fotosintesis dalam jumlah besar", "Memudahkan terjadinya difusi gas di dalam daun", "Untuk menyerap sinar matahari lebih banyak"],
+                correct: 2
+            },
+            {
+                q: "Jaringan floem pada berkas pengangkut daun memiliki peran penting untuk...",
+                a: ["Mengedarkan hasil fotosintesis ke seluruh tubuh tumbuhan", "Menyerap air dari lingkungan luar daun", "Melindungi jaringan di bawahnya", "Tempat terjadinya transpirasi"],
+                correct: 0
+            },
+            {
+                q: "Perhatikan model 3D di sebelah kanan. Jaringan yang letaknya tepat di bawah epidermis atas dan sel-selnya tersusun rapat berbentuk silinder adalah...",
+                a: ["Jaringan spons", "Jaringan tiang/palisade", "Jaringan epidermis bawah", "Berkas vaskuler"],
+                correct: 1
+            },
+            {
+                q: "Gas yang masuk melalui stomata dan digunakan sebagai bahan baku dalam proses fotosintesis adalah...",
+                a: ["Oksigen (O2)", "Karbon dioksida (CO2)", "Nitrogen (N2)", "Uap air (H2O)"],
+                correct: 1
+            },
+            {
+                q: "Struktur daun yang beradaptasi untuk menahan paparan sinar matahari yang terik pada tumbuhan darat umumnya memiliki...",
+                a: ["Kutikula yang tebal", "Stomata yang selalu terbuka lebar", "Banyak rongga di jaringan palisade", "Jaringan xilem yang tipis"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+
+        // Fungsi berpindah antar Tab Utama
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'evaluasi') {
+                renderQuestion();
+            }
+        }
+
+        // Fungsi memuat pertanyaan kuis
+        function renderQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('quiz-progress').innerText = `Soal ${currentQuestionIndex + 1} dari ${questions.length}`;
+            document.getElementById('quiz-score').innerText = `Skor: ${score}`;
+            document.getElementById('question-text').innerText = currentQuestion.q;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            currentQuestion.a.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.innerText = `${String.fromCharCode(65 + index)}. ${option}`;
+                
+                // Jika user sudah menjawab pertanyaan ini sebelumnya
+                if (userAnswers[currentQuestionIndex] !== null) {
+                    button.disabled = true;
+                    if (index === currentQuestion.correct) {
+                        button.classList.add('correct');
+                    }
+                    if (userAnswers[currentQuestionIndex] === index && index !== currentQuestion.correct) {
+                        button.classList.add('wrong');
+                    }
+                } else {
+                    button.onclick = () => selectOption(index);
+                }
+                container.appendChild(button);
+            });
+
+            // Atur status tombol navigasi bawah kuis
+            document.getElementById('btn-prev').disabled = currentQuestionIndex === 0;
+            document.getElementById('btn-next').innerText = currentQuestionIndex === questions.length - 1 ? 'Selesai' : 'Berikutnya';
+        }
+
+        // Aksi ketika salah satu jawaban diklik
+        function selectOption(selectedIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+            userAnswers[currentQuestionIndex] = selectedIndex;
+
+            if (selectedIndex === currentQuestion.correct) {
+                score += 10;
+            }
+
+            // Render ulang untuk memperbarui style benar/salah secara instan
+            renderQuestion();
+        }
+
+        // Fungsi ganti nomor soal kuis
+        function changeQuestion(direction) {
+            if (direction === 1 && currentQuestionIndex === questions.length - 1) {
+                alert(`Kuis Selesai! Total Skor Akhir Anda: ${score} / 100`);
+                return;
+            }
+            currentQuestionIndex += direction;
+            renderQuestion();
+        }
+    </script>
+</body>
+</html>
